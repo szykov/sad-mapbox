@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -15,9 +17,10 @@ import { reducers, metaReducers } from './reducers';
 		BrowserAnimationsModule,
 		StoreModule.forRoot(reducers, {
 			metaReducers
-		})
+		}),
+		SharedModule,
+		CoreModule
 	],
-	providers: [],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}

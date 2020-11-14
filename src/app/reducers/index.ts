@@ -1,4 +1,7 @@
-import { ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-empty-interface */
+
+import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 
 export interface State {}

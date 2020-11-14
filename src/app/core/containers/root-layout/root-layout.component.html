@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="topbar">
+	<sad-topbar></sad-topbar>
+</mat-toolbar>
+
+<mat-drawer-container class="drawer-container" autosize>
+	<mat-drawer #drawer class="drawer" mode="side" [opened]="true">
+		<sad-leftbar (menuChange)="onSelectMenu($event)"></sad-leftbar>
+	</mat-drawer>
+
+	<div class="drawer-content">
+		<ng-content></ng-content>
+	</div>
+</mat-drawer-container>

@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
 	selector: 'sad-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+	template: `
+		<sad-root-layout>
+			<router-outlet></router-outlet>
+		</sad-root-layout>
+	`
 })
-export class AppComponent {
-	title = 'sad-mapbox';
-}
+export class AppComponent {}
