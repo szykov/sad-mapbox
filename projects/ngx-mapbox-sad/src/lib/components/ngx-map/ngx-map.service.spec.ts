@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgxMapboxSadService } from './ngx-mapbox-sad.service';
+import { NgxMapService } from './ngx-map.service';
 
-describe('NgxMapboxSadService', () => {
-	let service: NgxMapboxSadService;
+describe('NgxMapService', () => {
+	let service: NgxMapService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		service = TestBed.inject(NgxMapboxSadService);
+		service = TestBed.inject(NgxMapService);
 	});
 
 	it('should be created', () => {
