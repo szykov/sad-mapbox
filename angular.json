@@ -149,6 +149,46 @@
           }
         }
       }
+    },
+    "ngx-mapbox-sad": {
+      "projectType": "library",
+      "root": "projects/ngx-mapbox-sad",
+      "sourceRoot": "projects/ngx-mapbox-sad/src",
+      "prefix": "sadl",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/ngx-mapbox-sad/tsconfig.lib.json",
+            "project": "projects/ngx-mapbox-sad/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-mapbox-sad/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-mapbox-sad/src/test.ts",
+            "tsConfig": "projects/ngx-mapbox-sad/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-mapbox-sad/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-mapbox-sad/tsconfig.lib.json",
+              "projects/ngx-mapbox-sad/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "sad-mapbox"
