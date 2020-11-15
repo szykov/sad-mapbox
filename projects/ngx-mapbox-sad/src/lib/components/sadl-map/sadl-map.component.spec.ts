@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgxMapComponent } from './ngx-map.component';
+import { SadlMapComponent } from './sadl-map.component';
 
-describe('NgxMapComponent', () => {
-	let component: NgxMapComponent;
-	let fixture: ComponentFixture<NgxMapComponent>;
+describe('SadlMapComponent', () => {
+	let component: SadlMapComponent;
+	let fixture: ComponentFixture<SadlMapComponent>;
 
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
-			declarations: [NgxMapComponent]
+			declarations: [SadlMapComponent]
 		}).compileComponents();
 	});
 
 	beforeEach(() => {
-		fixture = TestBed.createComponent(NgxMapComponent);
+		fixture = TestBed.createComponent(SadlMapComponent);
 		component = fixture.componentInstance;
 		fixture.detectChanges();
 	});

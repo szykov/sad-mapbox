@@ -4,10 +4,15 @@ import { CommonModule } from '@angular/common';
 import { MapboxRoutingModule } from './mapbox-routing.module';
 import { MapboxComponent } from './mapbox.component';
 
-import { NgxMapboxSadModule } from 'projects/ngx-mapbox-sad/src/public-api';
+import { SadlMapboxModule } from 'projects/ngx-mapbox-sad/src/public-api';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
 	declarations: [MapboxComponent],
-	imports: [CommonModule, MapboxRoutingModule, NgxMapboxSadModule.withConfig({ accessToken: 'SoL71Zyf7SmLrVYWC7fQ' })]
+	imports: [
+		CommonModule,
+		MapboxRoutingModule,
+		SadlMapboxModule.withConfig({ accessToken: environment.mapbox.accessToken })
+	]
 })
 export class MapboxModule {}

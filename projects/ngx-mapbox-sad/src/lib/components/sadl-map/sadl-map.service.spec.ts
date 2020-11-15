@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NgxMapService } from './ngx-map.service';
+import { SadlMapService } from './sadl-map.service';
 
-describe('NgxMapService', () => {
-	let service: NgxMapService;
+describe('SadlMapService', () => {
+	let service: SadlMapService;
 
 	beforeEach(() => {
 		TestBed.configureTestingModule({});
-		service = TestBed.inject(NgxMapService);
+		service = TestBed.inject(SadlMapService);
 	});
 
 	it('should be created', () => {
