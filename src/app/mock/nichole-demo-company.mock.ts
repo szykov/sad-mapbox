@@ -1,4 +1,4 @@
-import { ICompany } from '../interfaces';
+import { ICompany } from '@app/interfaces';
 
 export const NICHOLE_DEMO_COMPANY: ICompany = {
 	agentInfo: {

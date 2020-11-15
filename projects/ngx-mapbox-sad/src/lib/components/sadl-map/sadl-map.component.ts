@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
-import { SadlMapInput, SadlMapOptions } from '../../intefaces';
+import { SadlMapInput, SadlMapOptions } from '@ngx-mapbox-sad/lib/interfaces';
 import { SadlMapService } from './sadl-map.service';
 
 @Component({

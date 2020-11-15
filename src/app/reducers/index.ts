@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 export interface State {}
 

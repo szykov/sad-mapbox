@@ -4,4 +4,4 @@ export * from './floorplan.interface';
 export * from './geocode.inteface';
 export * from './record.interface';
 export * from './company.interface';
-export * from './company-service.interface';
+export * from './companies-service.interface';

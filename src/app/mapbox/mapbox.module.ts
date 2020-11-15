@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MapboxRoutingModule } from './mapbox-routing.module';
-import { MapboxComponent } from './mapbox.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { CompaniesEffects } from './effects';
+import { reducers } from './reducers';
 
-import { SadlMapboxModule } from 'projects/ngx-mapbox-sad/src/public-api';
+import { MapboxRoutingModule } from './mapbox-routing.module';
+import { MapboxComponent } from './components/mapbox.component';
+
+import { SadlMapboxModule } from '@ngx-mapbox-sad/public-api';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
@@ -12,7 +17,9 @@ import { environment } from 'src/environments/environment';
 	imports: [
 		CommonModule,
 		MapboxRoutingModule,
-		SadlMapboxModule.withConfig({ accessToken: environment.mapbox.accessToken })
+		SadlMapboxModule.withConfig({ accessToken: environment.mapbox.accessToken }),
+		StoreModule.forFeature('map', reducers),
+		EffectsModule.forFeature([CompaniesEffects])
 	]
 })
 export class MapboxModule {}

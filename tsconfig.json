@@ -20,9 +20,14 @@
             "dom"
         ],
         "paths": {
-            "ngx-mapbox-sad": [
-                "dist/ngx-mapbox-sad/ngx-mapbox-sad",
-                "dist/ngx-mapbox-sad"
+            "@ngx-mapbox-sad/*": [
+                "projects/ngx-mapbox-sad/src/*"
+            ],
+            "@app/*": [
+                "src/app/*"
+            ],
+            "@shared/*": [
+                "src/app/shared/*"
             ]
         }
     },

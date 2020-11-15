@@ -3,7 +3,7 @@ import { InjectionToken } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 import * as MapboxGl from 'mapbox-gl';
-import { SadlMapOptions } from '../../intefaces';
+import { SadlMapOptions } from '@ngx-mapbox-sad/lib/interfaces';
 
 export const ACCESS_TOKEN = new InjectionToken('AccessToken');
 
