@@ -10,6 +10,17 @@ import { CompaniesService } from '@app/services';
 export class CompaniesEffects {
 	constructor(private CompaniesService: CompaniesService, private actions$: Actions) {}
 
+	loadCompanies$ = createEffect(() =>
+		this.actions$.pipe(
+			ofType(CompaniesActions.loadCompanies),
+			mergeMap(() =>
+				this.CompaniesService.getAvailableCompanies().pipe(
+					map((result) => CompaniesActions.loadCompaniesSuccess({ available: result }))
+				)
+			)
+		)
+	);
+
 	loadSelectedCompany$ = createEffect(() =>
 		this.actions$.pipe(
 			ofType(CompaniesActions.loadSelectedCompany),

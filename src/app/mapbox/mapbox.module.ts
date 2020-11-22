@@ -7,7 +7,7 @@ import { CompaniesEffects } from './effects';
 import { reducers } from './reducers';
 
 import { MapboxRoutingModule } from './mapbox-routing.module';
-import { MapboxComponent } from './components/mapbox.component';
+import { MapboxComponent } from './containers/mapbox.component';
 
 import { SadlMapboxModule } from '@ngx-mapbox-sad/public-api';
 import { environment } from 'src/environments/environment';

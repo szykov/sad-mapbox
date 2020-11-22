@@ -1,9 +1,0 @@
-<mat-selection-list
-	#menuList
-	[multiple]="false"
-	(selectionChange)="onSelect(menuList.selectedOptions.selected[0].value)"
->
-	<mat-list-option *ngFor="let option of menuOptions" [value]="option.value">
-		{{ option.description }}
-	</mat-list-option>
-</mat-selection-list>

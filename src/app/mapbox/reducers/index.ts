@@ -19,6 +19,7 @@ export function reducers(state: MapState | undefined, action: Action): { compani
 
 // selector functions
 const getFeatureState = createFeatureSelector<State, MapState>('map');
-export const selectCompanies = createSelector(getFeatureState, (state: MapState) => state.companies);
+export const selectCompanies = createSelector(getFeatureState, (state: MapState) => state?.companies);
 
 export const getCompany = createSelector(selectCompanies, fromCompanies.getSelectedCompany);
+export const getAvailableCompanies = createSelector(selectCompanies, fromCompanies.getAvailableCompanies);

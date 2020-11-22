@@ -22,7 +22,10 @@ const configWithRuntimeChecks: RootStoreConfig<unknown, Action> = {
 		CommonModule,
 		StoreModule.forRoot({}, environment.production ? {} : configWithRuntimeChecks),
 		EffectsModule.forRoot([]),
-		environment.production ? [] : StoreDevtoolsModule.instrument({ maxAge: 25 })
+		StoreDevtoolsModule.instrument({
+			maxAge: 25, // Retains last 25 states
+			logOnly: environment.production // Restrict extension to log-only mode
+		})
 	]
 })
 export class AppStoreModule {}

@@ -1,0 +1,32 @@
+<mat-toolbar color="primary">
+	<div class="topbar">
+		<div class="topbar-logo topbar-nav" routerLink="/">
+			<mat-icon class="topbar-icon" aria-hidden="false" aria-label="Map icon">map</mat-icon>
+			<span class="topbar-title">MapBox Wrapper</span>
+		</div>
+
+		<div class="fill-empty"></div>
+
+		<div class="topbar-actions">
+			<sad-company-selector
+				[companies]="companies$ | async"
+				[ngModel]="selectedCompany"
+				(ngModelChange)="$event && onSelectCompany($event)"
+			></sad-company-selector>
+		</div>
+	</div>
+</mat-toolbar>
+
+<mat-drawer-container class="drawer-container" autosize>
+	<mat-drawer #drawer class="drawer" mode="side" [opened]="true">
+		<sad-menu-action-list
+			[actions]="actions"
+			[ngModel]="action"
+			(ngModelChange)="$event && onSelectAction($event)"
+		></sad-menu-action-list>
+	</mat-drawer>
+
+	<div class="drawer-content">
+		<ng-content></ng-content>
+	</div>
+</mat-drawer-container>

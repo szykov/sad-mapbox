@@ -11,8 +11,6 @@ import { MAPBOX_STYLE } from './mapbox-style';
 import { Subject } from 'rxjs';
 import { ICompany } from '@app/interfaces';
 
-const NICHOLE_DEMO_COMPANY_ID = 5638557;
-
 @Component({
 	selector: 'sad-mapbox',
 	templateUrl: './mapbox.component.html',
@@ -31,7 +29,8 @@ export class MapboxComponent implements OnInit, OnDestroy {
 	constructor(private store: Store<fromCompanies.State>, private cdr: ChangeDetectorRef) {}
 
 	ngOnInit(): void {
-		this.store.dispatch(CompaniesActions.loadSelectedCompany({ listID: NICHOLE_DEMO_COMPANY_ID, token: '' }));
+		this.store.dispatch(CompaniesActions.loadCompanies());
+
 		this.store
 			.select(fromCompanies.getCompany)
 			.pipe(takeUntil(this.unsubscribe$))
