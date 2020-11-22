@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { CompaniesActions } from '@app/mapbox/actions';
+import { CompaniesActions } from '@app/actions';
 import { ICompany, ICompanyName } from '@app/interfaces';
 
 export interface State {

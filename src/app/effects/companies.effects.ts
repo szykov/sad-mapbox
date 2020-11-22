@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { mergeMap, map } from 'rxjs/operators';
-import { CompaniesActions } from '@app/mapbox/actions';
+import { CompaniesActions } from '@app/actions';
 
 import { CompaniesService } from '@app/services';
 

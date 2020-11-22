@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { takeUntil } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
-import * as fromCompanies from '@app/mapbox/reducers';
-import { CompaniesActions } from '@app/mapbox/actions';
+import * as fromState from '@app/reducers';
+import { CompaniesActions } from '@app/actions';
 
 import { SadlMapInput } from 'projects/ngx-mapbox-sad/src/public-api';
 import { MAPBOX_STYLE } from './mapbox-style';
@@ -26,13 +26,13 @@ export class MapboxComponent implements OnInit, OnDestroy {
 
 	private unsubscribe$: Subject<void> = new Subject();
 
-	constructor(private store: Store<fromCompanies.State>, private cdr: ChangeDetectorRef) {}
+	constructor(private store: Store<fromState.State>, private cdr: ChangeDetectorRef) {}
 
 	ngOnInit(): void {
 		this.store.dispatch(CompaniesActions.loadCompanies());
 
 		this.store
-			.select(fromCompanies.getCompany)
+			.select(fromState.getCompany)
 			.pipe(takeUntil(this.unsubscribe$))
 			.subscribe((company) => {
 				this.company = company;

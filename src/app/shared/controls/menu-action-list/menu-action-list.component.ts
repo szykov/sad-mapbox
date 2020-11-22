@@ -6,7 +6,8 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input, forwardRef, ChangeDetectorRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 
-import { IMenuLink } from '@app/interfaces';
+import { IMenuAction } from '@app/interfaces';
+import { MenuAction } from '@app/shared/common';
 
 @Component({
 	selector: 'sad-menu-action-list',
@@ -21,16 +22,16 @@ import { IMenuLink } from '@app/interfaces';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuActionListComponent implements ControlValueAccessor, Validator, OnInit {
-	@Input() actions: IMenuLink[] | undefined;
-	public selected!: IMenuLink;
+	@Input() actions: IMenuAction[] | null = null;
+	public selected!: MenuAction;
 	public required!: boolean;
 
-	public set value(value: IMenuLink) {
+	public set value(value: MenuAction) {
 		this.selected = value;
 		this.onChange(value);
 		this.onTouch();
 	}
-	public get value(): IMenuLink {
+	public get value(): MenuAction {
 		return this.selected;
 	}
 
@@ -41,7 +42,7 @@ export class MenuActionListComponent implements ControlValueAccessor, Validator,
 
 	ngOnInit(): void {}
 
-	public writeValue(value: IMenuLink): void {
+	public writeValue(value: MenuAction): void {
 		this.value = value;
 	}
 

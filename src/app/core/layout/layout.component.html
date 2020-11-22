@@ -11,7 +11,7 @@
 			<sad-company-selector
 				[companies]="companies$ | async"
 				[ngModel]="selectedCompany"
-				(ngModelChange)="$event && onSelectCompany($event)"
+				(ngModelChange)="$event !== undefined && onSelectCompany($event)"
 			></sad-company-selector>
 		</div>
 	</div>
@@ -20,9 +20,9 @@
 <mat-drawer-container class="drawer-container" autosize>
 	<mat-drawer #drawer class="drawer" mode="side" [opened]="true">
 		<sad-menu-action-list
-			[actions]="actions"
-			[ngModel]="action"
-			(ngModelChange)="$event && onSelectAction($event)"
+			[actions]="actions$ | async"
+			[ngModel]="selectedAction"
+			(ngModelChange)="$event !== undefined && onSelectAction($event)"
 		></sad-menu-action-list>
 	</mat-drawer>
 

@@ -11,11 +11,6 @@ export const loadSelectedCompanySuccess = createAction(
 	props<{ selected: ICompany }>()
 );
 
-export const loadSelectedCompanyFailure = createAction(
-	'[Company] Load Selected Company Failure',
-	props<{ error: any }>()
-);
-
 export const loadCompanies = createAction('[Company] Load Companies');
 
 export const loadCompaniesSuccess = createAction(

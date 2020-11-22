@@ -4,5 +4,5 @@ export * from './company-name.interface';
 export * from './company.interface';
 export * from './floorplan.interface';
 export * from './geocode.inteface';
-export * from './menu-link.interface';
+export * from './menu-action.interface';
 export * from './record.interface';
