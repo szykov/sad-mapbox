@@ -6,7 +6,12 @@ import { Store } from '@ngrx/store';
 import * as fromState from '@app/reducers';
 import { CompaniesActions } from '@app/actions';
 
-import { SadlMapInput } from 'projects/ngx-mapbox-sad/src/public-api';
+import {
+	ISadlFlyToInput,
+	ISadlGeoLocation,
+	ISadlMapInput,
+	ISadlMarkerInput
+} from 'projects/ngx-mapbox-sad/src/public-api';
 import { MAPBOX_STYLE } from './mapbox-style';
 import { Subject } from 'rxjs';
 import { ICompany } from '@app/interfaces';
@@ -17,12 +22,30 @@ import { ICompany } from '@app/interfaces';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapboxComponent implements OnInit, OnDestroy {
-	public options: SadlMapInput = {
+	public options: ISadlMapInput = {
 		style: MAPBOX_STYLE,
 		center: [-74.5, 40],
 		zoom: 9
 	};
 	public company: ICompany | null = null;
+	public get markers(): ISadlMarkerInput {
+		let locations = this.company?.records.map(
+			(record) =>
+				({
+					longitude: Number(record.geocode.Longitude),
+					latitude: Number(record.geocode.Latitude)
+				} as ISadlGeoLocation)
+		);
+		return { locations: locations, options: {} } as ISadlMarkerInput;
+	}
+	public get flyTo(): ISadlFlyToInput {
+		return {
+			center: {
+				longitude: Number(this.company?.records[0].geocode.Longitude),
+				latitude: Number(this.company?.records[0].geocode.Latitude)
+			}
+		};
+	}
 
 	private unsubscribe$: Subject<void> = new Subject();
 

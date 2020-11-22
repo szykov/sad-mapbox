@@ -29,5 +29,5 @@ export const reducer = createReducer(
 	}))
 );
 
-export const getSelectedMenuAction = (state: State): IMenuAction | null => state?.menu.selected;
+export const getSelectedMenuAction = (state: State): MenuAction | null => state?.menu.selected;
 export const getMenuActions = (state: State): IMenuAction[] | null => state?.menu.actions;
