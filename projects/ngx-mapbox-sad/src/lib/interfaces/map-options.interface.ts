@@ -1,5 +1,6 @@
-import { ISadlMapInput } from './map-input.interface';
-
-export interface ISadlMapOptions extends ISadlMapInput {
+export interface ISadlMapOptions {
 	container: string | HTMLElement;
+	style: mapboxgl.Style | string;
+	center?: [number, number];
+	zoom?: number;
 }

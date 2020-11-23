@@ -3,7 +3,7 @@ import { InjectionToken } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 import * as MapboxGl from 'mapbox-gl';
-import { ISadlFlyToInput, ISadlGeoLocation, ISadlMapOptions, ISadlMarkerOptions } from '@ngx-mapbox-sad/lib/interfaces';
+import { ISadlGeoLocation, ISadlMapOptions, ISadlMarkerOptions } from '@ngx-mapbox-sad/lib/interfaces';
 
 export const ACCESS_TOKEN = new InjectionToken('AccessToken');
 
@@ -46,8 +46,19 @@ export class SadlMapService {
 		this.markers = [];
 	}
 
-	public flyTo(options: ISadlFlyToInput): void {
-		let flyToOptions: MapboxGl.FlyToOptions = { center: [options.center.longitude, options.center.latitude] };
+	public flyTo(location: ISadlGeoLocation, zoom?: number): void {
+		let flyToOptions: MapboxGl.FlyToOptions = {
+			center: [location.longitude, location.latitude],
+			zoom: zoom
+		};
+
 		this.map.flyTo(flyToOptions);
+	}
+
+	public fitMarkerBounds(): void {
+		let bounds = new MapboxGl.LngLatBounds();
+		this.markers.forEach((marker) => bounds.extend(marker.getLngLat()));
+
+		this.map.fitBounds(bounds, { padding: 50 });
 	}
 }

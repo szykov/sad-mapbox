@@ -10,14 +10,9 @@ import {
 	ViewChild
 } from '@angular/core';
 
-import {
-	ISadlGeoLocation,
-	ISadlMarkerInput,
-	ISadlMapInput,
-	ISadlMapOptions,
-	ISadlMarkerOptions,
-	ISadlFlyToInput
-} from '@ngx-mapbox-sad/lib/interfaces';
+import { SadlFlyToInput, SadlMapInput, SadlMarkerInput } from '@ngx-mapbox-sad/lib/types';
+import { ISadlMapOptions, ISadlMarkerOptions, ISadlGeoLocation, ISadlFlyTo } from '@ngx-mapbox-sad/lib/interfaces';
+
 import { SadlMapService } from './sadl-map.service';
 
 @Component({
@@ -29,15 +24,23 @@ import { SadlMapService } from './sadl-map.service';
 })
 export class SadlMapComponent implements OnInit, OnChanges {
 	@ViewChild('container', { static: true }) mapContainer!: ElementRef;
-	@Input() options!: ISadlMapInput;
-	@Input() markers!: ISadlMarkerInput;
-	@Input() flyTo!: ISadlFlyToInput;
+	@Input() options: SadlMapInput | undefined;
+	@Input() markers: SadlMarkerInput | undefined;
 
 	constructor(private SadlMapService: SadlMapService) {}
 
 	ngOnInit(): void {
-		let options = ({ ...this.options } as ISadlMapOptions) || {};
-		options.container = this.mapContainer.nativeElement;
+		if (!this.options) {
+			throw new Error('Options should be specififed');
+		}
+
+		let options: ISadlMapOptions | undefined = {
+			container: this.mapContainer.nativeElement,
+			style: this.options.style,
+			center: this.options.center ? [this.options.center.longitude, this.options.center.latitude] : undefined,
+			zoom: this.options.zoom
+		};
+
 		this.SadlMapService.setup(options);
 	}
 
@@ -45,14 +48,19 @@ export class SadlMapComponent implements OnInit, OnChanges {
 		if (this.isValueChanged(changes.markers)) {
 			this.SadlMapService.removeAllMarkers();
 
+			let locations: ISadlGeoLocation[] = changes.markers.currentValue.locations;
 			let options: ISadlMarkerOptions = changes.markers.currentValue.options;
-			changes.markers.currentValue.locations.forEach((location: ISadlGeoLocation) => {
+
+			locations.forEach((location: ISadlGeoLocation) => {
 				this.SadlMapService.addMarker(location, options);
 			});
+
+			this.SadlMapService.fitMarkerBounds();
 		}
 
-		if (this.isValueChanged(changes.flyTo)) {
-			this.SadlMapService.flyTo(changes.flyTo.currentValue);
+		if (this.isValueChanged(changes.options)) {
+			let options = { ...changes.options.currentValue } as SadlMapInput;
+			options.center && this.SadlMapService.flyTo(options.center, options.zoom);
 		}
 	}
 

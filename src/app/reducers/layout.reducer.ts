@@ -25,7 +25,7 @@ export const reducer = createReducer(
 	initialState,
 	on(LayoutActions.selectMenuAction, (state, { action }) => ({
 		...state,
-		action
+		menu: { actions: state.menu.actions, selected: action }
 	}))
 );
 

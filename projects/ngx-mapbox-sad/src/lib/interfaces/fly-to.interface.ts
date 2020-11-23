@@ -1,5 +1,5 @@
 import { ISadlGeoLocation } from '.';
 
-export interface ISadlFlyToInput {
+export interface ISadlFlyTo {
 	center: ISadlGeoLocation;
 }
