@@ -4,11 +4,13 @@ import { LayoutActions } from '@app/actions';
 import { IMenuAction } from '@app/interfaces';
 import { MenuAction } from '@app/shared/common';
 
+interface MenuState {
+	actions: IMenuAction[] | null;
+	selected: MenuAction | null;
+}
+
 export interface State {
-	menu: {
-		actions: IMenuAction[] | null;
-		selected: MenuAction | null;
-	};
+	menu: MenuState;
 }
 
 export const initialState: State = {
@@ -29,5 +31,6 @@ export const reducer = createReducer(
 	}))
 );
 
+export const getMenu = (state: State): MenuState | null => state?.menu;
 export const getSelectedMenuAction = (state: State): MenuAction | null => state?.menu.selected;
 export const getMenuActions = (state: State): IMenuAction[] | null => state?.menu.actions;

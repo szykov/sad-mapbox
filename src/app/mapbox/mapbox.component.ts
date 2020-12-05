@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class MapboxComponent implements OnInit, OnDestroy {
 		center: USA_LOCATION,
 		zoom: 3
 	};
-	public markerOptions: SadlMarkerInput | null = null;
+	public markerOptions: SadlMarkerInput | undefined;
 
 	private unsubscribe$: Subject<void> = new Subject();
 
@@ -40,18 +40,18 @@ export class MapboxComponent implements OnInit, OnDestroy {
 					longitude: Number(record.geocode.Longitude),
 					latitude: Number(record.geocode.Latitude)
 				}));
-				this.markerOptions = locations ? { locations: locations } : null;
+				this.markerOptions = locations && { locations: locations };
 				this.cdr.detectChanges();
 			});
 
 		this.store
-			.select(fromState.getSelectedMenuAction)
+			.select(fromState.getMenu)
 			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe((action) => this.initAction(action));
+			.subscribe((menu) => this.initAction(menu?.selected));
 	}
 
 	// todo: move to store effects
-	private initAction(action: MenuAction | null) {
+	private initAction(action: MenuAction | null | undefined) {
 		switch (action) {
 			case MenuAction.ZoomToCenter:
 				this.mapOptions = { ...this.mapOptions, center: USA_LOCATION, zoom: 3 };

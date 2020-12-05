@@ -34,5 +34,6 @@ const getLayoutFeature = createFeatureSelector<fromLayout.State>('layout');
 export const getCompany = createSelector(getCompaniesFeature, fromCompanies.getSelectedCompany);
 export const getAvailableCompanies = createSelector(getCompaniesFeature, fromCompanies.getAvailableCompanies);
 
+export const getMenu = createSelector(getLayoutFeature, fromLayout.getMenu);
 export const getMenuActions = createSelector(getLayoutFeature, fromLayout.getMenuActions);
 export const getSelectedMenuAction = createSelector(getLayoutFeature, fromLayout.getSelectedMenuAction);

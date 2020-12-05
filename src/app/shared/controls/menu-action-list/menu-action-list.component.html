@@ -1,5 +1,5 @@
 <mat-selection-list #menuList [multiple]="false" (selectionChange)="value = menuList.selectedOptions.selected[0].value">
 	<mat-list-option *ngFor="let action of actions" [value]="action.value">
-		{{ action.description }}
+		<span (click)="this.clicked.emit(action.value)">{{ action.description }}</span>
 	</mat-list-option>
 </mat-selection-list>

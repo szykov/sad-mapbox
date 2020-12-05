@@ -3,7 +3,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { Component, OnInit, ChangeDetectionStrategy, Input, forwardRef, ChangeDetectorRef } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ChangeDetectionStrategy,
+	Input,
+	forwardRef,
+	ChangeDetectorRef,
+	Output,
+	EventEmitter
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, Validator, AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { IMenuAction } from '@app/interfaces';
@@ -23,6 +32,8 @@ import { MenuAction } from '@app/shared/common';
 })
 export class MenuActionListComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input() actions: IMenuAction[] | null = null;
+	@Output() clicked = new EventEmitter<MenuAction>();
+
 	public selected!: MenuAction;
 	public required!: boolean;
 

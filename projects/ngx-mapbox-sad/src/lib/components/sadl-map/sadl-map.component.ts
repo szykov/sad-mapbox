@@ -10,10 +10,11 @@ import {
 	ViewChild
 } from '@angular/core';
 
-import { SadlFlyToInput, SadlMapInput, SadlMarkerInput } from '@ngx-mapbox-sad/lib/types';
-import { ISadlMapOptions, ISadlMarkerOptions, ISadlGeoLocation, ISadlFlyTo } from '@ngx-mapbox-sad/lib/interfaces';
+import { SadlMapInput, SadlMarkerInput } from '@ngx-mapbox-sad/lib/types';
+import { ISadlMapOptions, ISadlMarkerOptions, ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
 
 import { SadlMapService } from './sadl-map.service';
+import { SadlMapOptionsModel, SadlMarkerOptionsModel } from '@ngx-mapbox-sad/lib/models';
 
 @Component({
 	selector: 'sadl-map',
@@ -27,7 +28,7 @@ export class SadlMapComponent implements OnInit, OnChanges {
 	@Input() options: SadlMapInput | undefined;
 	@Input() markers: SadlMarkerInput | undefined;
 
-	constructor(private SadlMapService: SadlMapService) {}
+	constructor(private sadlMapService: SadlMapService) {}
 
 	ngOnInit(): void {
 		if (!this.options) {
@@ -41,26 +42,28 @@ export class SadlMapComponent implements OnInit, OnChanges {
 			zoom: this.options.zoom
 		};
 
-		this.SadlMapService.setup(options);
+		this.sadlMapService.setup(new SadlMapOptionsModel(options));
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (this.isValueChanged(changes.markers)) {
-			this.SadlMapService.removeAllMarkers();
+			this.sadlMapService.removeAllMarkers();
 
 			let locations: ISadlGeoLocation[] = changes.markers.currentValue.locations;
 			let options: ISadlMarkerOptions = changes.markers.currentValue.options;
 
 			locations.forEach((location: ISadlGeoLocation) => {
-				this.SadlMapService.addMarker(location, options);
+				this.sadlMapService.addMarker(location, new SadlMarkerOptionsModel(options));
 			});
 
-			this.SadlMapService.fitMarkerBounds();
+			this.sadlMapService.fitMarkerBounds();
 		}
 
 		if (this.isValueChanged(changes.options)) {
-			let options = { ...changes.options.currentValue } as SadlMapInput;
-			options.center && this.SadlMapService.flyTo(options.center, options.zoom);
+			let current: SadlMapInput = changes.options.currentValue;
+			let previous: SadlMapInput = changes.options.previousValue;
+			if (current.center && current.center !== previous.center)
+				this.sadlMapService.flyTo(current.center, current.zoom);
 		}
 	}
 

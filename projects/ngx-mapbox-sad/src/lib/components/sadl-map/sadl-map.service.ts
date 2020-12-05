@@ -2,20 +2,23 @@ import { Inject } from '@angular/core';
 import { InjectionToken } from '@angular/core';
 import { Injectable } from '@angular/core';
 
-import * as MapboxGl from 'mapbox-gl';
-import { ISadlGeoLocation, ISadlMapOptions, ISadlMarkerOptions } from '@ngx-mapbox-sad/lib/interfaces';
+import { FlyToOptions, LngLatBounds, LngLatLike, Marker, Map } from 'mapbox-gl';
+
+import { ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
+import { SadlMapOptionsModel } from '@ngx-mapbox-sad/lib/models';
+import { SadlMarkerOptionsModel } from '@ngx-mapbox-sad/lib/models/marker-options.model';
 
 export const ACCESS_TOKEN = new InjectionToken('AccessToken');
 
 @Injectable()
 export class SadlMapService {
-	private _map: MapboxGl.Map | undefined;
-	private markers: MapboxGl.Marker[] = [];
+	private _map: Map | undefined;
+	private markers: Marker[] = [];
 
-	private set map(map: MapboxGl.Map) {
+	private set map(map: Map) {
 		this._map = map;
 	}
-	private get map(): MapboxGl.Map {
+	private get map(): Map {
 		if (!this._map) {
 			throw new Error('Please setup the service before proceed');
 		}
@@ -25,16 +28,17 @@ export class SadlMapService {
 
 	constructor(@Inject(ACCESS_TOKEN) private readonly ACCESS_TOKEN: string) {}
 
-	public setup(options: ISadlMapOptions): void {
-		let mapboxOptions = { ...options } as MapboxGl.MapboxOptions;
+	public setup(options: SadlMapOptionsModel): void {
+		let mapboxOptions = options.toMapboxOptions();
 		mapboxOptions.accessToken = this.ACCESS_TOKEN;
-		this.map = new MapboxGl.Map(mapboxOptions);
+
+		this.map = new Map(mapboxOptions);
 	}
 
-	public addMarker(locaiton: ISadlGeoLocation, options?: ISadlMarkerOptions): void {
-		let markerOptions = ({ ...options } as MapboxGl.MarkerOptions) || {};
-		let marker = new MapboxGl.Marker(markerOptions);
-		let location: MapboxGl.LngLatLike = [locaiton.longitude, locaiton.latitude];
+	public addMarker(locaiton: ISadlGeoLocation, options?: SadlMarkerOptionsModel): void {
+		let markerOptions = options?.toMarkerOptions() || {};
+		let marker = new Marker(markerOptions);
+		let location: LngLatLike = [locaiton.longitude, locaiton.latitude];
 		marker.setLngLat(location);
 
 		this.markers.push(marker);
@@ -47,7 +51,7 @@ export class SadlMapService {
 	}
 
 	public flyTo(location: ISadlGeoLocation, zoom?: number): void {
-		let flyToOptions: MapboxGl.FlyToOptions = {
+		let flyToOptions: FlyToOptions = {
 			center: [location.longitude, location.latitude],
 			zoom: zoom
 		};
@@ -56,7 +60,7 @@ export class SadlMapService {
 	}
 
 	public fitMarkerBounds(): void {
-		let bounds = new MapboxGl.LngLatBounds();
+		let bounds = new LngLatBounds();
 		this.markers.forEach((marker) => bounds.extend(marker.getLngLat()));
 
 		this.map.fitBounds(bounds, { padding: 50 });

@@ -22,7 +22,7 @@
 		<sad-menu-action-list
 			[actions]="actions$ | async"
 			[ngModel]="selectedAction"
-			(ngModelChange)="$event !== undefined && onSelectAction($event)"
+			(clicked)="$event !== undefined && onSelectAction($event)"
 		></sad-menu-action-list>
 	</mat-drawer>
 
