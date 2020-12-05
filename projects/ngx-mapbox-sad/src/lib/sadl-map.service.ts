@@ -7,6 +7,7 @@ import { FlyToOptions, LngLatBounds, LngLatLike, Marker, Map } from 'mapbox-gl';
 import { ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
 import { SadlMapOptionsModel } from '@ngx-mapbox-sad/lib/models';
 import { SadlMarkerOptionsModel } from '@ngx-mapbox-sad/lib/models/marker-options.model';
+import { SadlLayerOptionsModel } from './models/layer-options.model';
 
 export const ACCESS_TOKEN = new InjectionToken('AccessToken');
 
@@ -64,5 +65,9 @@ export class SadlMapService {
 		this.markers.forEach((marker) => bounds.extend(marker.getLngLat()));
 
 		this.map.fitBounds(bounds, { padding: 50 });
+	}
+
+	public addLayer(layer: SadlLayerOptionsModel): void {
+		this.map.addLayer(layer.toLayer());
 	}
 }

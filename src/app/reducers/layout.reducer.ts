@@ -17,7 +17,8 @@ export const initialState: State = {
 	menu: {
 		actions: [
 			{ value: MenuAction.ZoomToCenter, description: 'Auto zoom to center' },
-			{ value: MenuAction.ZoomToRandomPin, description: 'Zoom in to random pin' }
+			{ value: MenuAction.ZoomToRandomPin, description: 'Zoom in to random pin' },
+			{ value: MenuAction.ZoomToMarkers, description: 'Auto zooom' }
 		],
 		selected: null
 	}

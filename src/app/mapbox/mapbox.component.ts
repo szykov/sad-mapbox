@@ -53,10 +53,6 @@ export class MapboxComponent implements OnInit, OnDestroy {
 	// todo: move to store effects
 	private initAction(action: MenuAction | null | undefined) {
 		switch (action) {
-			case MenuAction.ZoomToCenter:
-				this.mapOptions = { ...this.mapOptions, center: USA_LOCATION, zoom: 3 };
-				break;
-
 			case MenuAction.ZoomToRandomPin: {
 				if (!this.markerOptions) {
 					break;
@@ -67,6 +63,14 @@ export class MapboxComponent implements OnInit, OnDestroy {
 				this.mapOptions = { ...this.mapOptions, center: target, zoom: 15 };
 				break;
 			}
+
+			case MenuAction.ZoomToCenter:
+				this.mapOptions = { ...this.mapOptions, center: USA_LOCATION, zoom: 3 };
+				break;
+
+			case MenuAction.ZoomToMarkers:
+				this.mapOptions = { ...this.mapOptions, center: null };
+				break;
 
 			default:
 				break;

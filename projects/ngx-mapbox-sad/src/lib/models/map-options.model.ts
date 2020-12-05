@@ -5,7 +5,7 @@ import { MapboxOptions, Style } from 'mapbox-gl';
 export class SadlMapOptionsModel implements ISadlMapOptions {
 	public container!: string | HTMLElement;
 	public style!: Style | string;
-	public center?: [number, number];
+	public center!: [number, number] | null;
 	public zoom?: number;
 
 	constructor(options: ISadlMapOptions) {
@@ -16,7 +16,7 @@ export class SadlMapOptionsModel implements ISadlMapOptions {
 		let options: MapboxOptions = {
 			container: this.container,
 			style: this.style,
-			center: this.center,
+			center: this.center ?? undefined,
 			zoom: this.zoom
 		};
 		return options;

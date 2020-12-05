@@ -1,4 +1,5 @@
 export const enum MenuAction {
 	ZoomToRandomPin,
-	ZoomToCenter
+	ZoomToCenter,
+	ZoomToMarkers
 }
