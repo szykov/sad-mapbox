@@ -34,16 +34,16 @@ export class MenuActionListComponent implements ControlValueAccessor, Validator,
 	@Input() actions: IMenuAction[] | null = null;
 	@Output() clicked = new EventEmitter<MenuAction>();
 
-	public selected!: MenuAction;
-	public required!: boolean;
+	public required = false;
+	private _value: MenuAction | null = null;
 
-	public set value(value: MenuAction) {
-		this.selected = value;
+	public set value(value: MenuAction | null) {
+		this._value = value;
 		this.onChange(value);
 		this.onTouch();
 	}
-	public get value(): MenuAction {
-		return this.selected;
+	public get value(): MenuAction | null {
+		return this._value;
 	}
 
 	onChange = (value: any): void => {};

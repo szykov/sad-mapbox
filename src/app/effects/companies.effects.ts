@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { mergeMap, map } from 'rxjs/operators';
-import { CompaniesActions } from '@app/actions';
+import { forkJoin, of } from 'rxjs';
 
+import { Actions, ofType, createEffect } from '@ngrx/effects';
+
+import { CompaniesActions } from '@app/actions';
 import { CompaniesService } from '@app/services';
 
 @Injectable()
@@ -21,14 +23,14 @@ export class CompaniesEffects {
 		)
 	);
 
-	loadSelectedCompany$ = createEffect(() =>
+	loadSelectedCompanies$ = createEffect(() =>
 		this.actions$.pipe(
-			ofType(CompaniesActions.loadSelectedCompany),
-			mergeMap(({ listID, token, receipt }) =>
-				this.CompaniesService.getCompany(listID, token, receipt).pipe(
-					map((result) => CompaniesActions.loadSelectedCompanySuccess({ selected: result }))
-				)
-			)
+			ofType(CompaniesActions.loadSelectedCompanies),
+			// in real app should be caching applied or having dedicated api
+			mergeMap(({ ids }) =>
+				ids.length ? forkJoin(ids.map((id) => this.CompaniesService.getCompany(id))) : of([])
+			),
+			map((result) => CompaniesActions.loadSelectedCompaniesSuccess({ selected: result }))
 		)
 	);
 }

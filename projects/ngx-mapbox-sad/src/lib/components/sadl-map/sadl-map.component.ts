@@ -1,5 +1,6 @@
 import {
 	ChangeDetectionStrategy,
+	ChangeDetectorRef,
 	Component,
 	ElementRef,
 	Input,
@@ -12,7 +13,7 @@ import {
 
 import { SadlMapInput, SadlMarkerInput } from '@ngx-mapbox-sad/lib/types';
 import { ISadlMapOptions, ISadlMarkerOptions, ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
-import { SadlMapService } from '@ngx-mapbox-sad/lib/sadl-map.service';
+import { SadlMapService } from '@ngx-mapbox-sad/lib/services';
 import { SadlMapOptionsModel, SadlMarkerOptionsModel } from '@ngx-mapbox-sad/lib/models';
 
 @Component({
@@ -27,7 +28,7 @@ export class SadlMapComponent implements OnInit, OnChanges {
 	@Input() options: SadlMapInput | undefined;
 	@Input() markers: SadlMarkerInput | undefined;
 
-	constructor(private mapService: SadlMapService) {}
+	constructor(private mapService: SadlMapService, private cdr: ChangeDetectorRef) {}
 
 	ngOnInit(): void {
 		if (!this.options) {
@@ -42,6 +43,7 @@ export class SadlMapComponent implements OnInit, OnChanges {
 		};
 
 		this.mapService.setup(new SadlMapOptionsModel(options));
+		this.mapService.changed$.subscribe(() => this.cdr.detectChanges());
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {

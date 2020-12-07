@@ -28,8 +28,9 @@ export class LayoutComponent implements OnInit {
 		this.actions$ = this.store.select(fromState.getMenuActions);
 	}
 
-	public onSelectCompany(company: ICompanyName): void {
-		this.store.dispatch(CompaniesActions.loadSelectedCompany({ listID: company.id, token: '' }));
+	public onSelectCompany(companies: ICompanyName[]): void {
+		let ids = companies.map((company) => company.id);
+		this.store.dispatch(CompaniesActions.loadSelectedCompanies({ ids: ids }));
 	}
 
 	public onSelectAction(action: MenuAction): void {

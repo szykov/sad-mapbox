@@ -1,8 +1,12 @@
-<button mat-stroked-button [matMenuTriggerFor]="company">
-	{{ selected?.description || 'Select the company' }}
-</button>
-<mat-menu #company="matMenu">
-	<button *ngFor="let company of companies" mat-menu-item (click)="value = company">
-		{{ company.description }}
-	</button>
-</mat-menu>
+<mat-form-field appearance="fill" class="company-field">
+	<mat-label>Select companies</mat-label>
+	<mat-select (selectionChange)="value = $event.value" multiple>
+		<mat-select-trigger>
+			{{ value.length ? value[0].description : '' }}
+			<span *ngIf="value.length > 1" class="additional-selection">
+				(+{{ value.length - 1 }} {{ value.length === 2 ? 'other' : 'others' }})
+			</span>
+		</mat-select-trigger>
+		<mat-option *ngFor="let company of companies" [value]="company">{{ company.description }}</mat-option>
+	</mat-select>
+</mat-form-field>

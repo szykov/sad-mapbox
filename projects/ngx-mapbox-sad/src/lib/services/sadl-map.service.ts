@@ -1,20 +1,23 @@
-import { Inject } from '@angular/core';
-import { InjectionToken } from '@angular/core';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 
-import { FlyToOptions, LngLatBounds, LngLatLike, Marker, Map } from 'mapbox-gl';
+import { FlyToOptions, LngLatBounds, LngLatLike, Marker, Map, Layer } from 'mapbox-gl';
 
 import { ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
-import { SadlMapOptionsModel } from '@ngx-mapbox-sad/lib/models';
-import { SadlMarkerOptionsModel } from '@ngx-mapbox-sad/lib/models/marker-options.model';
-import { SadlLayerOptionsModel } from './models/layer-options.model';
+import { SadlMapOptionsModel, SadlMarkerOptionsModel, SadlLayerOptionsModel } from '@ngx-mapbox-sad/lib/models';
+import { Observable, Subject } from 'rxjs';
 
 export const ACCESS_TOKEN = new InjectionToken('AccessToken');
 
+// todo: split on multiple files
 @Injectable()
 export class SadlMapService {
+	public changed$: Observable<void>;
+	private changed = new Subject<void>();
+
 	private _map: Map | undefined;
+
 	private markers: Marker[] = [];
+	private layers: Layer[] = [];
 
 	private set map(map: Map) {
 		this._map = map;
@@ -27,7 +30,9 @@ export class SadlMapService {
 		return this._map;
 	}
 
-	constructor(@Inject(ACCESS_TOKEN) private readonly ACCESS_TOKEN: string) {}
+	constructor(@Inject(ACCESS_TOKEN) private readonly ACCESS_TOKEN: string) {
+		this.changed$ = this.changed.asObservable();
+	}
 
 	public setup(options: SadlMapOptionsModel): void {
 		let mapboxOptions = options.toMapboxOptions();
@@ -67,7 +72,25 @@ export class SadlMapService {
 		this.map.fitBounds(bounds, { padding: 50 });
 	}
 
-	public addLayer(layer: SadlLayerOptionsModel): void {
-		this.map.addLayer(layer.toLayer());
+	public addLayer(model: SadlLayerOptionsModel): void {
+		let layer = model.toLayer();
+		this.layers.push(layer);
+
+		this.map.addSource(model.id, model.toSource());
+		this.map.addLayer(layer);
+
+		this.changed.next();
+	}
+
+	public removeLayer(id: string): void {
+		let exists = this.layers.some((layer) => layer.id === id);
+		if (!exists) {
+			throw new Error('Layer not found');
+		}
+
+		this.map.removeLayer(id);
+		this.map.removeSource(id);
+
+		this.changed.next();
 	}
 }

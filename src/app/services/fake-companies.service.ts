@@ -16,8 +16,8 @@ export class FakeCompaniesService implements ICompaniesService {
 		return of(companies);
 	}
 
-	public getCompany(listID: number, token: string, receipt?: string): Observable<ICompany> {
-		switch (listID) {
+	public getCompany(id: number): Observable<ICompany> {
+		switch (id) {
 			case 5638557:
 				return of(NICHOLE_DEMO_COMPANY);
 			case 5363950:

@@ -10,7 +10,7 @@ export class CompaniesService implements ICompaniesService {
 	public getAvailableCompanies(): Observable<ICompanyName[]> {
 		throw new Error('Method not implemented.');
 	}
-	public getCompany(listID: number, token: string, receipt?: string): Observable<ICompany> {
+	public getCompany(id: number): Observable<ICompany> {
 		throw new Error('Method not implemented.');
 	}
 }

@@ -3,7 +3,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { Component, OnInit, ChangeDetectionStrategy, Input, forwardRef, ChangeDetectorRef } from '@angular/core';
+import {
+	Component,
+	OnInit,
+	ChangeDetectionStrategy,
+	Input,
+	forwardRef,
+	ChangeDetectorRef,
+	ViewEncapsulation
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 import { ICompanyName } from '@app/interfaces';
@@ -11,6 +19,7 @@ import { ICompanyName } from '@app/interfaces';
 @Component({
 	selector: 'sad-company-selector',
 	templateUrl: './company-selector.component.html',
+	styleUrls: ['./company-selector.component.scss'],
 	providers: [
 		{
 			provide: NG_VALUE_ACCESSOR,
@@ -18,20 +27,22 @@ import { ICompanyName } from '@app/interfaces';
 			multi: true
 		}
 	],
+	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CompanySelectorComponent implements ControlValueAccessor, Validator, OnInit {
 	@Input() companies: ICompanyName[] | null = null;
-	public selected!: ICompanyName;
-	public required!: boolean;
 
-	public set value(value: ICompanyName) {
-		this.selected = value;
+	public required = false;
+	private _value: ICompanyName[] = [];
+
+	public set value(value: ICompanyName[]) {
+		this._value = value;
 		this.onChange(value);
 		this.onTouch();
 	}
-	public get value(): ICompanyName {
-		return this.selected;
+	public get value(): ICompanyName[] {
+		return this._value || [];
 	}
 
 	onChange = (value: any): void => {};
@@ -41,7 +52,7 @@ export class CompanySelectorComponent implements ControlValueAccessor, Validator
 
 	ngOnInit(): void {}
 
-	public writeValue(value: ICompanyName): void {
+	public writeValue(value: ICompanyName[]): void {
 		this.value = value;
 	}
 

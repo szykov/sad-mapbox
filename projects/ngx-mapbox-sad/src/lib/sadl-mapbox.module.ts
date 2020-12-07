@@ -1,8 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { SadlMapComponent } from './components/sadl-map/sadl-map.component';
-import { ACCESS_TOKEN } from './sadl-map.service';
-import { SadlLayerComponent } from './components/sadl-layer/sadl-layer.component';
+import { SadlLayerComponent, SadlMapComponent } from './components';
+import { ACCESS_TOKEN } from './services/sadl-map.service';
 
 const COMPONENTS = [SadlMapComponent, SadlLayerComponent];
 

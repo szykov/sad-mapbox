@@ -1,6 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 
-import { SadlLayerInput } from '@ngx-mapbox-sad/lib/types';
+import { LayerType } from '@ngx-mapbox-sad/lib/enums';
+import { ISadlGeoLocation } from '@ngx-mapbox-sad/lib/interfaces';
+import { SadlLayerOptionsModel } from '@ngx-mapbox-sad/lib/models';
+import { SadlMapService } from '@ngx-mapbox-sad/lib/services';
 
 @Component({
 	selector: 'sadl-layer',
@@ -8,10 +11,22 @@ import { SadlLayerInput } from '@ngx-mapbox-sad/lib/types';
 	styleUrls: ['./sadl-layer.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SadlLayerComponent implements OnInit {
-	@Input() options: SadlLayerInput | undefined;
+export class SadlLayerComponent implements OnInit, OnDestroy {
+	@Input() id!: string;
+	@Input() type!: LayerType;
+	@Input() locations!: ISadlGeoLocation[];
 
-	constructor() {}
+	constructor(private mapService: SadlMapService) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		if (!this.id || !this.type || !this.locations) throw new Error('All inputs are required');
+
+		this.mapService.addLayer(
+			new SadlLayerOptionsModel({ id: this.id, type: this.type, locations: this.locations })
+		);
+	}
+
+	ngOnDestroy(): void {
+		this.mapService.removeLayer(this.id);
+	}
 }

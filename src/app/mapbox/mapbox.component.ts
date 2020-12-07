@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -8,8 +8,10 @@ import * as fromState from '@app/reducers';
 import { CompaniesActions } from '@app/actions';
 
 import { MAPBOX_STYLE } from './mapbox-style';
-import { ISadlGeoLocation, SadlMapInput, SadlMarkerInput } from '@ngx-mapbox-sad/public-api';
+import { ISadlGeoLocation, SadlMapInput } from '@ngx-mapbox-sad/public-api';
 import { MenuAction } from '@app/shared/common';
+import { LayerType } from '@ngx-mapbox-sad/lib/enums';
+import { ICompany, IRecord } from '@app/interfaces';
 
 const USA_LOCATION: ISadlGeoLocation = { longitude: -100, latitude: 37 };
 
@@ -23,26 +25,20 @@ export class MapboxComponent implements OnInit, OnDestroy {
 		center: USA_LOCATION,
 		zoom: 3
 	};
-	public markerOptions: SadlMarkerInput | undefined;
+	public companies: ICompany[] = [];
+	public layerType = LayerType;
 
 	private unsubscribe$: Subject<void> = new Subject();
 
-	constructor(private store: Store<fromState.State>, private cdr: ChangeDetectorRef) {}
+	constructor(private store: Store<fromState.State>) {}
 
 	ngOnInit(): void {
 		this.store.dispatch(CompaniesActions.loadCompanies());
 
 		this.store
-			.select(fromState.getCompany)
+			.select(fromState.getCompanies)
 			.pipe(takeUntil(this.unsubscribe$))
-			.subscribe((company) => {
-				let locations: ISadlGeoLocation[] | undefined = company?.records.map((record) => ({
-					longitude: Number(record.geocode.Longitude),
-					latitude: Number(record.geocode.Latitude)
-				}));
-				this.markerOptions = locations && { locations: locations };
-				this.cdr.detectChanges();
-			});
+			.subscribe((companies) => (this.companies = companies || []));
 
 		this.store
 			.select(fromState.getMenu)
@@ -54,11 +50,12 @@ export class MapboxComponent implements OnInit, OnDestroy {
 	private initAction(action: MenuAction | null | undefined) {
 		switch (action) {
 			case MenuAction.ZoomToRandomPin: {
-				if (!this.markerOptions) {
+				if (!this.companies.length) {
 					break;
 				}
 
-				let locations = this.markerOptions.locations;
+				let records = this.companies.map((company) => company.records);
+				let locations = this.convertToGeoLocation(records.reduce((prev, cur) => prev.concat(cur), []));
 				let target = locations[Math.floor(Math.random() * locations.length)];
 				this.mapOptions = { ...this.mapOptions, center: target, zoom: 15 };
 				break;
@@ -75,6 +72,13 @@ export class MapboxComponent implements OnInit, OnDestroy {
 			default:
 				break;
 		}
+	}
+
+	public convertToGeoLocation(records: IRecord[]): ISadlGeoLocation[] {
+		return records.map((record) => ({
+			longitude: Number(record.geocode.Longitude),
+			latitude: Number(record.geocode.Latitude)
+		}));
 	}
 
 	ngOnDestroy(): void {

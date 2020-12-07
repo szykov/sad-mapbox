@@ -31,7 +31,7 @@ export const metaReducers: MetaReducer<unknown, any>[] = !environment.production
 const getCompaniesFeature = createFeatureSelector<fromCompanies.State>('companies');
 const getLayoutFeature = createFeatureSelector<fromLayout.State>('layout');
 
-export const getCompany = createSelector(getCompaniesFeature, fromCompanies.getSelectedCompany);
+export const getCompanies = createSelector(getCompaniesFeature, fromCompanies.getSelectedCompanies);
 export const getAvailableCompanies = createSelector(getCompaniesFeature, fromCompanies.getAvailableCompanies);
 
 export const getMenu = createSelector(getLayoutFeature, fromLayout.getMenu);

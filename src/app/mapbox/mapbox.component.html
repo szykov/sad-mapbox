@@ -1,3 +1,8 @@
-<sadl-map [options]="mapOptions" [markers]="markerOptions">
-	<sadl-layer></sadl-layer>
+<sadl-map [options]="mapOptions">
+	<sadl-layer
+		*ngFor="let company of companies"
+		[id]="company.records[0].listID.toString()"
+		[type]="layerType.Circle"
+		[locations]="convertToGeoLocation(company.records)"
+	></sadl-layer>
 </sadl-map>

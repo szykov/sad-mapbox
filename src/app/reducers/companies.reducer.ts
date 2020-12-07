@@ -4,7 +4,7 @@ import { CompaniesActions } from '@app/actions';
 import { ICompany, ICompanyName } from '@app/interfaces';
 
 export interface State {
-	selected: ICompany | null;
+	selected: ICompany[] | null;
 	available: ICompanyName[] | null;
 }
 
@@ -15,7 +15,7 @@ export const initialState: State = {
 
 export const reducer = createReducer(
 	initialState,
-	on(CompaniesActions.loadSelectedCompanySuccess, (state, { selected }) => ({
+	on(CompaniesActions.loadSelectedCompaniesSuccess, (state, { selected }) => ({
 		...state,
 		selected
 	})),
@@ -25,5 +25,5 @@ export const reducer = createReducer(
 	}))
 );
 
-export const getSelectedCompany = (state: State): ICompany | null => state?.selected;
+export const getSelectedCompanies = (state: State): ICompany[] | null => state?.selected;
 export const getAvailableCompanies = (state: State): ICompanyName[] | null => state?.available;

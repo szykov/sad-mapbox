@@ -1,14 +1,11 @@
 import { ICompany, ICompanyName } from '@app/interfaces';
 import { createAction, props } from '@ngrx/store';
 
-export const loadSelectedCompany = createAction(
-	'[Company] Load Selected Company',
-	props<{ listID: number; token: string; receipt?: string }>()
-);
+export const loadSelectedCompanies = createAction('[Company] Load Selected Company', props<{ ids: number[] }>());
 
-export const loadSelectedCompanySuccess = createAction(
+export const loadSelectedCompaniesSuccess = createAction(
 	'[Company] Load Selected Company Success',
-	props<{ selected: ICompany }>()
+	props<{ selected: ICompany[] }>()
 );
 
 export const loadCompanies = createAction('[Company] Load Companies');
